@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Reusable large-to-compact sticky banner for GitHub Pages and Google Sites embeds." />
+  <title>Vari Banner</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header id="variBanner" class="vari-banner" aria-label="Page banner">
+    <div class="vari-banner__overlay" aria-hidden="true"></div>
+    <div class="vari-banner__inner">
+      <a id="brandLink" class="vari-banner__brand" href="#top" aria-label="Top-tier Patent Search home">
+        <span id="brandMark" class="vari-banner__mark" aria-hidden="true">TPS</span>
+        <span id="heroTitle" class="vari-banner__title">Top-tier Patent Search</span>
+      </a>
+
+      <p id="heroSubtitle" class="vari-banner__subtitle">Systematic Patent Intelligence</p>
+
+      <nav id="compactNav" class="vari-banner__nav" aria-label="Primary navigation">
+        <a href="?page=home">Home</a>
+        <a href="?page=services">Services</a>
+        <a href="?page=expertise">Expertise</a>
+        <a href="?page=software">Software</a>
+        <a href="?page=contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" class="page-shell">
+    <section class="intro-card">
+      <p class="eyebrow">DEMONSTRATION</p>
+      <h1 id="contentTitle">Variable Banner</h1>
+      <p id="contentLead">
+        Scroll this page. The large banner gradually becomes a compact sticky header and remains at the top.
+      </p>
+    </section>
+
+    <section class="content-grid" aria-label="Demo content">
+      <article>
+        <h2>How it works</h2>
+        <p>The scroll distance is converted to a progress value from 0 to 1. Banner height, text size, image position, overlay strength, subtitle visibility, and navigation visibility are interpolated from that value.</p>
+      </article>
+      <article>
+        <h2>Reusable configuration</h2>
+        <p>Use the URL parameter <code>?page=home</code>, <code>?page=services</code>, or another configured page name. Each page can have its own title, subtitle, image, and accent text while sharing the same banner engine.</p>
+      </article>
+      <article>
+        <h2>GitHub Pages</h2>
+        <p>This project has no build step and uses only relative paths, making it suitable for a project site such as <code>https://toptierpatentsearch.github.io/vari-banner/</code>.</p>
+      </article>
+      <article>
+        <h2>Google Sites</h2>
+        <p>The page can be embedded by URL in Google Sites. For the most reliable viewport-wide sticky behavior, use it as a full-page embed or as a separately hosted page rather than trying to alter the native Google Sites header.</p>
+      </article>
+    </section>
+
+    <section class="spacer-copy">
+      <h2>Scroll test area</h2>
+      <p>Continue scrolling to confirm that the compact banner stays stationary at the top.</p>
+      <p>Patent-search projects often contain long technical sections, so a compact sticky header can preserve navigation without consuming excessive vertical space.</p>
+      <p>The implementation also honors reduced-motion preferences: users who request reduced motion receive a simpler state change instead of continuous animation.</p>
+      <p>You can replace the demonstration gradients with your own local image files or remote image URLs in <code>script.js</code>.</p>
+      <p>Additional navigation links can be added directly in <code>index.html</code> or generated from configuration if the project later becomes larger.</p>
+      <p>The banner is intentionally framework-free so it can be maintained easily with GitHub, Codex, or any text editor.</p>
+    </section>
+  </main>
+
+  <script src="./script.js"></script>
+</body>
+</html>
