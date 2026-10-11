@@ -1,20 +1,20 @@
 # vari-banner
 
-A framework-free demonstration of a **large hero/banner that gradually collapses into a compact sticky header while the page is scrolled**.
+A framework-free **large-to-compact sticky banner** prototype for the Top-tier Patent Search website.
 
-Designed for easy deployment on GitHub Pages and reuse from Google Sites by URL embedding.
+The component starts as a large hero banner, gradually shrinks as the visitor scrolls, and remains at the top as a compact stationary header.
 
-## Features
+## Current design
 
-- Large-to-compact banner transition driven by scroll position
-- Sticky compact header after collapse
-- Interpolated banner height, title size, mark size, subtitle opacity, overlay strength, background position, and shadow
-- Compact navigation gradually appears during collapse
-- Page-specific configuration through `?page=`
-- No framework, package manager, or build step
-- Relative asset paths suitable for GitHub Pages project sites
-- Responsive layout
+- Large hero banner at the top of the page
+- Smooth scroll-driven collapse to a 64 px compact header
+- Compact lockup keeps the TPS mark, `Top-tier Patent Search`, and the current page title visible
+- Subtitle fades out during collapse
+- No duplicate navigation menu inside the banner
+- Responsive sizing for desktop, tablet, and mobile
 - `prefers-reduced-motion` support
+- Page-specific text and backgrounds through `?page=`
+- No framework, package manager, or build step
 
 ## Files
 
@@ -27,29 +27,7 @@ vari-banner/
 └── README.md
 ```
 
-## Local test
-
-You can open `index.html` directly, or serve the directory with a simple local HTTP server.
-
-Example with Python:
-
-```bash
-python -m http.server 8000
-```
-
-Then visit:
-
-```text
-http://localhost:8000/
-http://localhost:8000/?page=services
-http://localhost:8000/?page=expertise
-```
-
-## GitHub Pages
-
-For repository `ToptierPatentSearch/vari-banner`, enable GitHub Pages from the `main` branch and repository root.
-
-Expected project-site URL:
+## Live GitHub Pages site
 
 ```text
 https://toptierpatentsearch.github.io/vari-banner/
@@ -65,49 +43,75 @@ https://toptierpatentsearch.github.io/vari-banner/?page=software
 https://toptierpatentsearch.github.io/vari-banner/?page=contact
 ```
 
-## Customize page banners
+## Page configuration
 
-Edit the `pages` object near the top of `script.js`:
+Edit the `pages` object near the top of `script.js`.
+
+Example:
 
 ```js
-home: {
-  title: "Top-tier Patent Search",
-  subtitle: "Systematic Patent Intelligence",
-  contentTitle: "Variable Banner",
-  contentLead: "...",
-  image: "url('./images/home-banner.jpg')"
+expertise: {
+  title: "Professional Expertise",
+  subtitle: "Technical Depth. Patent Search Precision.",
+  contentTitle: "Professional Expertise",
+  contentLead: "Technical analysis, patent-search methodology, and classification intelligence combined in one research workflow.",
+  image: "linear-gradient(125deg, #2c3f63 0%, #6c7894 54%, #b0b5c2 100%)"
 }
 ```
 
-You can use a local image instead of the included demonstration gradient. If you do, create an `images/` directory and keep paths relative, for example:
+## Add an actual banner image
 
-```js
-image: "url('./images/home-banner.jpg')"
+After adding an image file to the repository, replace the `image` value with a relative URL.
+
+For example, if the file is stored as:
+
+```text
+assets/expertise-banner.jpg
 ```
 
-## Adjust collapse behavior
+use:
 
-Edit the `settings` object in `script.js`:
+```js
+image: "url('./assets/expertise-banner.jpg')"
+```
+
+A gradient can be retained as a fallback by using multiple CSS backgrounds if desired.
+
+## Collapse settings
+
+The scroll behavior is controlled by the `settings` object in `script.js`:
 
 ```js
 const settings = {
-  largeHeight: 360,
-  compactHeight: 72,
-  largeTitle: 46,
-  compactTitle: 21,
-  largeMark: 54,
-  compactMark: 36,
+  largeHeightDesktop: 340,
+  largeHeightTablet: 300,
+  largeHeightMobile: 260,
+  compactHeight: 64,
+  largeTitleDesktop: 44,
+  largeTitleMobile: 34,
+  compactTitle: 18,
+  largeSiteName: 15,
+  compactSiteName: 11,
+  largeMark: 52,
+  compactMark: 32,
   transitionDistance: 320,
-  compactNavStart: 0.62,
-  compactShadowStart: 0.78
+  compactShadowStart: 0.76
 };
 ```
 
-`transitionDistance` is the amount of scrolling, in pixels, over which the large banner transforms into the compact header.
+`transitionDistance` is the scrolling distance, in pixels, over which the banner changes from the large state to the compact state.
 
-## Google Sites use
+## Google Sites integration
 
-Google Sites does not give embedded code unrestricted control over the native Google Sites page header. For reliable sticky behavior, host this component on GitHub Pages and use it as a full-page embed or link to the hosted page.
+The component is intended to be hosted on GitHub Pages and then used from Google Sites by URL.
+
+A normal Google Sites embed is isolated inside its own frame, so `position: sticky` applies to that embedded frame rather than to the surrounding native Google Sites page. For full-width sticky behavior, use a full-page embed or a separately hosted page where appropriate.
+
+The banner intentionally does **not** reproduce the Google Sites navigation menu. This avoids duplicate navigation when the component is used with the existing Top-tier Patent Search site.
+
+## Next customization step
+
+Add the actual Top-tier Patent Search banner image or images to the repository, then update the `image` entries in `script.js`.
 
 ## License
 
