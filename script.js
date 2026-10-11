@@ -48,19 +48,19 @@
     largeMark: 52,
     compactMark: 32,
     googleCompactMark: 26,
-    transitionDistance: 330,
     compactShadowStart: 0.72
   };
 
   const root = document.documentElement;
   const banner = document.getElementById("variBanner");
+  const bannerSpacer = document.getElementById("bannerSpacer");
   const siteName = document.getElementById("siteName");
   const title = document.getElementById("heroTitle");
   const subtitle = document.getElementById("heroSubtitle");
   const contentTitle = document.getElementById("contentTitle");
   const contentLead = document.getElementById("contentLead");
 
-  if (!banner || !siteName || !title || !subtitle) return;
+  if (!banner || !bannerSpacer || !siteName || !title || !subtitle) return;
 
   const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
   const mix = (from, to, progress) => from + (to - from) * progress;
@@ -120,14 +120,21 @@
   let ticking = false;
 
   function render() {
-    const raw = clamp(window.scrollY / settings.transitionDistance, 0, 1);
-    const eased = smoothstep(raw);
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const progress = reducedMotion ? (raw >= 0.5 ? 1 : 0) : eased;
-
     const largeHeight = getResponsiveLargeHeight();
     const largeTitle = getResponsiveLargeTitle();
     const compact = getCompactMetrics();
+
+    // The spacer keeps document flow constant while the fixed banner changes size.
+    // This prevents the scroll position from feeding back into banner height and
+    // eliminates the visible shaking/jitter during collapse.
+    root.style.setProperty("--banner-spacer-height", `${largeHeight}px`);
+    root.style.setProperty("--banner-min-height", `${compact.height}px`);
+
+    const collapseDistance = Math.max(1, largeHeight - compact.height);
+    const raw = clamp(window.scrollY / collapseDistance, 0, 1);
+    const eased = smoothstep(raw);
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const progress = reducedMotion ? (raw >= 0.5 ? 1 : 0) : eased;
 
     root.style.setProperty("--banner-height", `${mix(largeHeight, compact.height, progress)}px`);
     root.style.setProperty("--title-size", `${mix(largeTitle, compact.title, progress)}px`);
