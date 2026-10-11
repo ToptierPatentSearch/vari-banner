@@ -17,8 +17,8 @@
     expertise: {
       title: "Professional Expertise",
       subtitle: "Technical Depth. Patent Search Precision.",
-      contentTitle: "Professional Expertise",
-      contentLead: "Technical analysis, patent-search methodology, and classification intelligence combined in one research workflow."
+      contentTitle: "Professional Expertise at a Glance",
+      contentLead: "Patent-search and analysis expertise combining claim-level technical interpretation, international patent information, classification-based retrieval, engineering knowledge, and AI-assisted research workflows."
     },
     software: {
       title: "Software Development",
@@ -59,6 +59,10 @@
   const subtitle = document.getElementById("heroSubtitle");
   const contentTitle = document.getElementById("contentTitle");
   const contentLead = document.getElementById("contentLead");
+  const genericContentTitle = document.getElementById("genericContentTitle");
+  const genericContentLead = document.getElementById("genericContentLead");
+  const expertiseContent = document.getElementById("expertiseContent");
+  const genericContent = document.getElementById("genericContent");
 
   if (!banner || !bannerSpacer || !siteName || !title || !subtitle) return;
 
@@ -67,6 +71,7 @@
   const smoothstep = (progress) => progress * progress * (3 - 2 * progress);
 
   let pageMode = "standalone";
+  let pageKey = "home";
 
   function getResponsiveLargeHeight() {
     if (window.innerWidth <= 520) return settings.largeHeightMobile;
@@ -100,19 +105,31 @@
     const params = new URLSearchParams(window.location.search);
     const requestedPage = (params.get("page") || "home").toLowerCase();
     const requestedMode = (params.get("mode") || "standalone").toLowerCase();
-    const pageKey = pages[requestedPage] ? requestedPage : "home";
-    const config = pages[pageKey];
 
+    pageKey = pages[requestedPage] ? requestedPage : "home";
+    const config = pages[pageKey];
     pageMode = requestedMode === "google" ? "google" : "standalone";
 
     document.body.dataset.page = pageKey;
     document.body.dataset.mode = pageMode;
+
     siteName.textContent = "Top-tier Patent Search";
     title.textContent = config.title;
     subtitle.textContent = config.subtitle;
 
-    if (contentTitle) contentTitle.textContent = config.contentTitle;
-    if (contentLead) contentLead.textContent = config.contentLead;
+    if (expertiseContent && genericContent) {
+      const isExpertise = pageKey === "expertise";
+      expertiseContent.hidden = !isExpertise;
+      genericContent.hidden = isExpertise;
+    }
+
+    if (pageKey === "expertise") {
+      if (contentTitle) contentTitle.textContent = config.contentTitle;
+      if (contentLead) contentLead.textContent = config.contentLead;
+    } else {
+      if (genericContentTitle) genericContentTitle.textContent = config.contentTitle;
+      if (genericContentLead) genericContentLead.textContent = config.contentLead;
+    }
 
     document.title = `${config.title} | Top-tier Patent Search`;
   }
@@ -124,9 +141,8 @@
     const largeTitle = getResponsiveLargeTitle();
     const compact = getCompactMetrics();
 
-    // The spacer keeps document flow constant while the fixed banner changes size.
-    // This prevents the scroll position from feeding back into banner height and
-    // eliminates the visible shaking/jitter during collapse.
+    // Keep document flow constant while the fixed banner changes size.
+    // This avoids the scroll/height feedback loop that caused visible vibration.
     root.style.setProperty("--banner-spacer-height", `${largeHeight}px`);
     root.style.setProperty("--banner-min-height", `${compact.height}px`);
 
