@@ -27,6 +27,10 @@ body {
   line-height: 1.65;
 }
 
+body[data-mode="google"] {
+  --banner-min-height: 50px;
+}
+
 .vari-banner {
   position: sticky;
   top: 0;
@@ -135,6 +139,15 @@ body {
   overflow: hidden;
 }
 
+body[data-mode="google"] .vari-banner.is-compact .vari-banner__mark {
+  background: transparent;
+  backdrop-filter: none;
+}
+
+body[data-mode="google"] .vari-banner.is-compact .vari-banner__inner {
+  width: min(var(--content-max), calc(100% - 28px));
+}
+
 .page-content {
   width: min(var(--content-max), calc(100% - 40px));
   margin: 0 auto;
@@ -200,6 +213,11 @@ body {
   .vari-banner__site-name { letter-spacing: .06em; }
   .vari-banner__title { max-width: 13ch; }
   .content-section { padding-left: 24px; padding-right: 24px; }
+
+  body[data-mode="google"] .vari-banner.is-compact .vari-banner__title {
+    max-width: none;
+    white-space: nowrap;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
