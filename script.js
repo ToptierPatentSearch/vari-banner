@@ -34,6 +34,25 @@
     }
   };
 
+  const expertiseSections = {
+    overview: "h.bsy7a75ml47f",
+    glance: "h.bsy7a75ml47f",
+    core: "h.cpyduewk0btt",
+    capabilities: "h.cpyduewk0btt",
+    search: "h.6l38ivbh61ay",
+    intelligence: "h.6l38ivbh61ay",
+    technical: "h.b5cnudye6zj2",
+    classification: "h.lxw66wfhxse8",
+    systems: "h.lxw66wfhxse8",
+    analysis: "h.61ao3yybxdqi",
+    analytical: "h.61ao3yybxdqi",
+    ai: "h.h4zd9sa6a5aj",
+    software: "h.h4zd9sa6a5aj",
+    quality: "h.47e6ljrvhmr2",
+    evidence: "h.47e6ljrvhmr2",
+    foundation: "h.yzp0fn57z0fv"
+  };
+
   const settings = {
     largeHeightDesktop: 350,
     largeHeightTablet: 305,
@@ -134,6 +153,29 @@
     document.title = `${config.title} | Top-tier Patent Search`;
   }
 
+  function navigateToRequestedSection() {
+    if (pageKey !== "expertise") return;
+
+    const params = new URLSearchParams(window.location.search);
+    const requestedSection = (params.get("section") || "").trim().toLowerCase();
+    const hashId = decodeURIComponent(window.location.hash.replace(/^#/, "")).trim();
+    const targetId = hashId || expertiseSections[requestedSection];
+
+    if (!targetId) return;
+
+    const target = document.getElementById(targetId);
+    if (!target) return;
+
+    // Wait until the correct page body is visible and banner metrics have been set.
+    // scroll-margin-top in CSS then leaves the section below the compact banner.
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        target.scrollIntoView({ block: "start", behavior: "auto" });
+        requestRender();
+      });
+    });
+  }
+
   let ticking = false;
 
   function render() {
@@ -191,6 +233,7 @@
 
   loadPageConfiguration();
   render();
+  navigateToRequestedSection();
 
   window.addEventListener("scroll", requestRender, { passive: true });
   window.addEventListener("resize", requestRender);
