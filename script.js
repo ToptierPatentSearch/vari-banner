@@ -39,12 +39,15 @@
     largeHeightTablet: 305,
     largeHeightMobile: 265,
     compactHeight: 66,
+    googleCompactHeight: 50,
     largeTitleDesktop: 46,
     largeTitleMobile: 34,
     compactTitle: 19,
+    googleCompactTitle: 17,
     largeSiteName: 14,
     largeMark: 52,
     compactMark: 32,
+    googleCompactMark: 26,
     transitionDistance: 330,
     compactShadowStart: 0.72
   };
@@ -63,6 +66,8 @@
   const mix = (from, to, progress) => from + (to - from) * progress;
   const smoothstep = (progress) => progress * progress * (3 - 2 * progress);
 
+  let pageMode = "standalone";
+
   function getResponsiveLargeHeight() {
     if (window.innerWidth <= 520) return settings.largeHeightMobile;
     if (window.innerWidth <= 820) return settings.largeHeightTablet;
@@ -73,13 +78,35 @@
     return window.innerWidth <= 520 ? settings.largeTitleMobile : settings.largeTitleDesktop;
   }
 
+  function getCompactMetrics() {
+    if (pageMode === "google") {
+      return {
+        height: settings.googleCompactHeight,
+        title: settings.googleCompactTitle,
+        mark: settings.googleCompactMark,
+        gap: 8
+      };
+    }
+
+    return {
+      height: settings.compactHeight,
+      title: settings.compactTitle,
+      mark: settings.compactMark,
+      gap: 10
+    };
+  }
+
   function loadPageConfiguration() {
     const params = new URLSearchParams(window.location.search);
     const requestedPage = (params.get("page") || "home").toLowerCase();
+    const requestedMode = (params.get("mode") || "standalone").toLowerCase();
     const pageKey = pages[requestedPage] ? requestedPage : "home";
     const config = pages[pageKey];
 
+    pageMode = requestedMode === "google" ? "google" : "standalone";
+
     document.body.dataset.page = pageKey;
+    document.body.dataset.mode = pageMode;
     siteName.textContent = "Top-tier Patent Search";
     title.textContent = config.title;
     subtitle.textContent = config.subtitle;
@@ -100,11 +127,12 @@
 
     const largeHeight = getResponsiveLargeHeight();
     const largeTitle = getResponsiveLargeTitle();
+    const compact = getCompactMetrics();
 
-    root.style.setProperty("--banner-height", `${mix(largeHeight, settings.compactHeight, progress)}px`);
-    root.style.setProperty("--title-size", `${mix(largeTitle, settings.compactTitle, progress)}px`);
-    root.style.setProperty("--mark-size", `${mix(settings.largeMark, settings.compactMark, progress)}px`);
-    root.style.setProperty("--brand-gap", `${mix(16, 10, progress)}px`);
+    root.style.setProperty("--banner-height", `${mix(largeHeight, compact.height, progress)}px`);
+    root.style.setProperty("--title-size", `${mix(largeTitle, compact.title, progress)}px`);
+    root.style.setProperty("--mark-size", `${mix(settings.largeMark, compact.mark, progress)}px`);
+    root.style.setProperty("--brand-gap", `${mix(16, compact.gap, progress)}px`);
 
     const subtitleOpacity = clamp(1 - progress * 1.8, 0, 1);
     root.style.setProperty("--subtitle-opacity", subtitleOpacity.toFixed(3));
@@ -117,12 +145,14 @@
     root.style.setProperty("--site-name-gap", `${mix(8, 0, progress)}px`);
     root.style.setProperty("--site-name-max-height", `${mix(24, 0, clamp(progress * 1.5, 0, 1))}px`);
 
-    root.style.setProperty("--overlay-opacity", mix(0.34, 0.72, progress).toFixed(3));
-    root.style.setProperty("--art-opacity", mix(0.82, 0.22, progress).toFixed(3));
+    root.style.setProperty("--overlay-opacity", mix(0.34, pageMode === "google" ? 0.76 : 0.72, progress).toFixed(3));
+    root.style.setProperty("--art-opacity", mix(0.82, pageMode === "google" ? 0.12 : 0.22, progress).toFixed(3));
     root.style.setProperty("--art-scale", mix(1, 1.08, progress).toFixed(3));
 
     const shadow = progress >= settings.compactShadowStart
-      ? "0 7px 20px rgba(15, 24, 42, .18)"
+      ? (pageMode === "google"
+          ? "0 5px 14px rgba(15, 24, 42, .16)"
+          : "0 7px 20px rgba(15, 24, 42, .18)")
       : "0 0 0 rgba(0, 0, 0, 0)";
     root.style.setProperty("--banner-shadow", shadow);
 
