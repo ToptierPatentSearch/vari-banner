@@ -3,12 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Large-to-compact sticky banner prototype for Top-tier Patent Search." />
+  <meta name="description" content="Reusable large-to-compact sticky banner for Top-tier Patent Search." />
   <title>Top-tier Patent Search | Variable Banner</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
   <header id="variBanner" class="vari-banner" aria-label="Top-tier Patent Search page banner">
+    <div class="vari-banner__art" aria-hidden="true"></div>
     <div class="vari-banner__overlay" aria-hidden="true"></div>
 
     <div class="vari-banner__inner">
@@ -33,31 +34,33 @@
       </p>
     </section>
 
-    <section class="content-section">
-      <h2>Search Services</h2>
+    <section class="content-section content-section--split">
+      <div>
+        <p class="section-kicker">SEARCH METHOD</p>
+        <h2>From technical concept to search-ready intelligence</h2>
+      </div>
       <p>
-        Prior-art, patentability, freedom-to-operate, invalidity, and landscape research can each require a different search strategy. The banner remains compact while the substantive page content continues below it.
+        Technical terminology, synonyms, patent classifications, citations, assignees, inventors, and iterative query refinement can be combined into a traceable search strategy rather than treated as isolated search inputs.
       </p>
     </section>
 
-    <section class="content-section">
-      <h2>Technical and Classification Intelligence</h2>
+    <section class="content-section content-section--split">
+      <div>
+        <p class="section-kicker">DECISION SUPPORT</p>
+        <h2>Research built around the purpose of the search</h2>
+      </div>
       <p>
-        Keyword development, CPC and IPC classification analysis, citation review, and iterative query refinement can be combined to improve search coverage while keeping the research process traceable.
+        Prior-art, patentability, freedom-to-operate, invalidity, and landscape research each call for different search emphasis, stopping criteria, and reporting depth.
       </p>
     </section>
 
-    <section class="content-section">
-      <h2>Purpose-Built Software</h2>
+    <section class="content-section content-section--split content-section--last">
+      <div>
+        <p class="section-kicker">PROFESSIONAL USE</p>
+        <h2>A restrained compact header keeps the page title visible</h2>
+      </div>
       <p>
-        Reusable web components and patent-search tools can support consistent workflows across service, expertise, software, and contact pages without duplicating the banner logic.
-      </p>
-    </section>
-
-    <section class="content-section content-section--last">
-      <h2>Confidentiality and Professional Use</h2>
-      <p>
-        The compact state is intentionally restrained so that the page title remains visible without competing with the technical content underneath it.
+        Once the visitor begins reading, the large visual header collapses into a compact stationary banner containing only the brand mark and current page title. This avoids duplicating the site's primary navigation.
       </p>
     </section>
   </main>
