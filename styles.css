@@ -1,5 +1,6 @@
 :root {
   --banner-height: 350px;
+  --banner-spacer-height: 350px;
   --banner-min-height: 66px;
   --title-size: 46px;
   --site-name-size: 14px;
@@ -31,10 +32,20 @@ body[data-mode="google"] {
   --banner-min-height: 50px;
 }
 
+.vari-banner-spacer {
+  height: var(--banner-spacer-height);
+  width: 100%;
+  pointer-events: none;
+  overflow-anchor: none;
+}
+
 .vari-banner {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
+  width: 100%;
   height: var(--banner-height);
   min-height: var(--banner-min-height);
   overflow: hidden;
@@ -42,6 +53,8 @@ body[data-mode="google"] {
   color: #fff;
   background: linear-gradient(120deg, #1f3356 0%, #4e6689 58%, #8a98ad 100%);
   box-shadow: var(--banner-shadow);
+  will-change: height;
+  contain: paint;
 }
 
 .vari-banner__art {
