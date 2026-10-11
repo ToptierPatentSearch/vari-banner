@@ -37,6 +37,30 @@ Without `mode=google`, the page remains in standalone mode and uses the original
 
 A normal inline embed is isolated in its own frame. CSS such as `position: sticky` and JavaScript scroll listeners operate inside that frame, not on the surrounding native Google Sites document. Therefore, an inline embed cannot reliably make the banner remain sticky relative to the entire Google Sites browser viewport.
 
+The same iframe boundary also applies to section anchors. A fragment on the outer Google Sites URL, such as:
+
+```text
+https://www.toptierpatentsearch.com/expertise/professional-expertise#h.b5cnudye6zj2
+```
+
+does not automatically navigate to the matching section inside the embedded GitHub page.
+
+For production, links from other Google Sites pages should therefore point to the Professional Expertise page root:
+
+```text
+https://www.toptierpatentsearch.com/expertise/professional-expertise
+```
+
+Once the visitor enters the page, the nine-item navigator inside the embedded page handles section-level navigation.
+
+For direct GitHub Pages testing or standalone use, `section=` is supported, for example:
+
+```text
+https://toptierpatentsearch.github.io/vari-banner/?page=expertise&mode=google&section=technical
+```
+
+See `PRODUCTION-LINK-MAP.md` for the complete section and legacy-anchor map.
+
 ## Recommended production test
 
 Use:
@@ -58,3 +82,5 @@ Confirm:
 ## Production strategy
 
 If the Google Sites mode works well, use the same full-page embed pattern for the selected Top-tier Patent Search pages that need the variable banner. Keep the ordinary standalone URLs available for direct GitHub Pages use or future migration away from Google Sites.
+
+Before replacing a live Google Sites page with a full-page embed, audit incoming section-specific links and remove reliance on outer-page `#h...` fragments. This avoids links that appear valid but cannot reach content inside the iframe.
