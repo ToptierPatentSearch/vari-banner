@@ -55,7 +55,8 @@ The parameter name and value must be separated by `=`.
 
 ### Ready for full-page production testing
 
-- Professional Expertise (`page=expertise`) — complete production-style body and variable banner are already implemented.
+- Home (`page=home`) — production-style Home body, retained legacy Home section IDs, and variable banner are implemented.
+- Professional Expertise (`page=expertise`) — complete production-style body and variable banner are implemented.
 
 ### Route registered; complete body migration still required
 
